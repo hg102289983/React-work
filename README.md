@@ -1,16 +1,65 @@
-# React + Vite
+# 🧠 스마트 시니어
+    타겟 사용자: 치매 예방 및 두뇌 인지 능력 향상을 원하는 65세 이상 노년층
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    목적: 집중력, 시공간 기억력 등 '기초 인지 능력'을 측정하는 핵심 테스트를 제공하고, 이를 실생활에 적용해 보는 간단한 '상황 훈련'을 보조로 제공하여 두뇌 자극을 극대화. 
 
-Currently, two official plugins are available:
+## 💡 기획 의도 및 서비스 구성
+단기 기억력 훈련을 통해 뇌의 전두엽을 자극하는 방식을 채택했습니다. 현재 확장 가능한 컴포넌트 구조로 설계되어 있으며, 초기 버전은 다음 핵심 게임을 제공합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 화면 1: 시작 화면 (Home 컴포넌트) 
+    *앱의 첫 화면입니다.
+    *구성: "오늘의 훈련을 시작하세요"라는 문구와 함께, 현재 개발된 미니 게임 목록(버튼)이 나열됩니다.
+    *(초기 버전에서는 '순서 기억 게임' 버튼 하나만 활성화하고, 추후 다른 게임 버튼을 추가할 예정입니다.)
+- 화면 2: 게임 공통 컨테이너 (GameContainer 컴포넌트) 
+    역할: 어떤 게임을 선택하든 공통으로 보여야 하는 요소(뒤로 가기 버튼, 현재 게임 제목, 점수 등)를 감싸는 부모 컴포넌트입니다.
+    합성(Composition) 활용: props.children을 사용하여 선택된 개별 게임 컴포넌트를 이 컨테이너 안에 렌더링합니다.
+- 화면 3: [메인 게임] 기초 인지 테스트 1- (StroopTest 컴포넌트)
+    진행 방식: 
+        제시 단계 (마운트 후): 3개의 단어(예: 사과, 자전거, 모자)가 1.5초 간격으로 화면 중앙에 하나씩 나타났다가 사라집니다. (useEffect와 setInterval 또는 setTimeout 활용)
+        입력 단계 (업데이트): 모든 단어가 제시된 후, 6개의 보기 버튼이 나타납니다. 사용자는 방금 본 단어 3개를 순서대로 눌러야 합니다.
+        결과 단계: 정답/오답 여부를 큰 아이콘(⭕, ❌)과 소리로 알려줍니다.
+- 화면 4: [메인 게임] 기초 인지 테스트2 -위치 기억하기(GridMemory 컴포넌트)
+    진행 방식: 3*3 격자에 3개의 칸이 2초간 깜빡인 후 사라짐.
+    사용자는 깜빡였던 칸을 순서 상관없이 찾아내어 클릭해야 함.
+- 화면 5: [서브] 보조 상황 훈련-마트 거스름돈 계산(MartSituation 컴포넌트)
+    진행 방식: 앞선 기초 테스트를 실 생활에 적용하는 보조 스테이지. 화면에 우유 2500원과 지불한 돈 5000원 이미지가 제시되면 화면 하단의 동전/지폐 버튼을 눌러 정확한 거스름돈 액수를 맞춰야 함.
 
-## React Compiler
+## 🛠 기술 스택 및 개발 환경
+- **프론트엔드:** React 18
+- **빌드 도구:** Vite
+- **언어:** JavaScript (ES6+), HTML5, CSS3
+- **버전 관리:** Git & GitHub
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📂 프로젝트 구조 (디렉토리)
+React의 핵심인 **'컴포넌트 분리 및 재사용'**, **'명확한 State 관리'**에 초점을 맞춘 직관적인 폴더 구조를 지향합니다.
+```text
+📦 React-work
+ ┣ 📂 src
+ ┃ ┣ 📂 components        # 여러 곳에서 재사용되는 공통 UI 컴포넌트 모음
+ ┃ ┃ ┣ 📜 GameContainer.jsx  # (화면 2) 모든 게임을 감싸는 공통 부모 컨테이너 (props.children 사용)
+ ┃ ┃ ┣ 📜 WordCard.jsx       # 단어나 숫자, 이미지를 띄울 때 쓸 네모난 카드 모양
+ ┃ ┃ ┗ 📜 ActionButton.jsx   # '시작', '뒤로 가기' 등 공통 디자인이 적용된 버튼
+ ┃ ┃
+ ┃ ┣ 📂 games             # 개별 미니 게임 컴포넌트 모음 (GameContainer 안으로 들어갈 자식들)
+ ┃ ┃ ┣ 📜 StroopTest.jsx     # (화면 3) 기초 인지 테스트 1: 단어 순서 기억
+ ┃ ┃ ┣ 📜 GridMemory.jsx     # (화면 4) 기초 인지 테스트 2: 3x3 위치 기억
+ ┃ ┃ ┗ 📜 MartSituation.jsx  # (화면 5) 보조 상황 훈련: 마트 거스름돈 계산
+ ┃ ┃
+ ┃ ┣ 📜 Home.jsx          # (화면 1) 시작 화면 (게임 목록 나열)
+ ┃ ┣ 📜 App.jsx           # 최상위 컴포넌트 (현재 화면 State 관리 및 라우팅)
+ ┃ ┣ 📜 App.css           # 전체 공통 스타일 (버튼 크기, 여백 등)
+ ┃ ┗ 📜 main.jsx          # React 앱 진입점
+ ┣ 📂 public              # 정적 이미지 파일 보관 (동전, 지폐 이미지 등)
+ ┣ 📜 package.json        # 패키지 설정
+ ┗ 📜 README.md           # 프로젝트 가이드
 
-## Expanding the ESLint configuration
+## 팀 협업 규칙 (Git Flow)
+안전한 코드 병합을 위해 main 브랜치에 직접 푸시(Push)하는 것을 금지합니다.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+    1. 작업 전: 항상 main 최신 코드를 받아옵니다. (git pull origin main)
+
+    2. 브랜치 생성: 기능별로 새로운 브랜치를 생성하여 작업합니다. (git switch -c feature/기능이름)
+
+    3. 커밋 규칙: 명확한 한글 메시지로 남깁니다. (예: git commit -m "feat: 홈 화면 UI 구성 및 라우팅 설정")
+
+    4. 작업 완료 후: 깃허브에 Push 후 Pull Request (PR)를 생성하여 팀원의 리뷰를 거친 뒤 main에 Merge 합니다.
