@@ -34,21 +34,23 @@
 React의 핵심인 **'컴포넌트 분리 및 재사용'**, **'명확한 State 관리'**에 초점을 맞춘 직관적인 폴더 구조를 지향합니다.
 ```text
 📦 React-work
- ┣ 📂 src
- ┃ ┣ 📂 components        # 여러 곳에서 재사용되는 공통 UI 컴포넌트 모음
- ┃ ┃ ┣ 📜 GameContainer.jsx  # (화면 2) 모든 게임을 감싸는 공통 부모 컨테이너 (props.children 사용)
- ┃ ┃ ┣ 📜 WordCard.jsx       # 단어나 숫자, 이미지를 띄울 때 쓸 네모난 카드 모양
- ┃ ┃ ┗ 📜 ActionButton.jsx   # '시작', '뒤로 가기' 등 공통 디자인이 적용된 버튼
- ┃ ┃
- ┃ ┣ 📂 games             # 개별 미니 게임 컴포넌트 모음 (GameContainer 안으로 들어갈 자식들)
- ┃ ┃ ┣ 📜 StroopTest.jsx     # (화면 3) 기초 인지 테스트 1: 단어 순서 기억
- ┃ ┃ ┣ 📜 GridMemory.jsx     # (화면 4) 기초 인지 테스트 2: 3x3 위치 기억
- ┃ ┃ ┗ 📜 MartSituation.jsx  # (화면 5) 보조 상황 훈련: 마트 거스름돈 계산
- ┃ ┃
- ┃ ┣ 📜 Home.jsx          # (화면 1) 시작 화면 (게임 목록 나열)
+ ┣ 📂 src/
+ ┃ ┣ 📜 HomePage.jsx          # (화면 1) 시작 화면 (게임 목록 나열)
+ ┃ ┣ 📜 Login.jsx
  ┃ ┣ 📜 App.jsx           # 최상위 컴포넌트 (현재 화면 State 관리 및 라우팅)
  ┃ ┣ 📜 App.css           # 전체 공통 스타일 (버튼 크기, 여백 등)
  ┃ ┗ 📜 main.jsx          # React 앱 진입점
+ ┃ ┃
+ ┃ ┣ 📂 games/            # 개별 미니 게임 컴포넌트 모음
+ ┃ ┃ ┣ 📜 RiddleGame.jsx     #  기초 인지 테스트 1: 수수깨끼 게임
+ ┃ ┃ ┣ 📜 HintBox.jsx     
+ ┃ ┃ ┣ 📜 OptionBox.jsx
+ ┃ ┃ ┣ 📜 CircleWordGame.jsx  #  기초 인지 테스트 2: 시에서 거울 찾기 게임
+ ┃ ┃ ┣ 📜 PoemBoard.jsx
+ ┃ ┃ ┗ 📜 ScoreBoard.jsx 
+ ┃ ┃
+ ┃ ┣ 📂 data/
+ ┃ ┃ ┗ problems.js
  ┣ 📂 public              # 정적 이미지 파일 보관 (동전, 지폐 이미지 등)
  ┣ 📜 package.json        # 패키지 설정
  ┗ 📜 README.md           # 프로젝트 가이드
