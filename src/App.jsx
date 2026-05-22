@@ -3,6 +3,7 @@ import Login from './Login';
 import HomePage from './HomePage';
 import RiddleGame from './games/RiddleGame';
 import CircleWordGame from './games/CircleWordGame';
+import Calcgame from './games/CalcGame';
 import './App.css';
 
 class App extends Component {
@@ -29,6 +30,9 @@ class App extends Component {
     if (screen === 'circleWord') {
       return <CircleWordGame onNext={() => this.setState({ screen: 'home' })} />;
     }
+    if (screen === 'calc') {
+      return <Calcgame onNext={()=> this.setState({screen:'home'})} />;
+    }  
   }
 }
 

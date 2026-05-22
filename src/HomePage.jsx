@@ -1,7 +1,7 @@
 const GAMES = [
   { id: 'riddle',     label: '1. 수수께끼 문제 풀기',        active: true  },
   { id: 'circleWord', label: '2. 동그라미 단어 게임',        active: true  },
-  { id: 'calc',       label: '3. 거스름돈 계산하기 (준비중)', active: false },
+  { id: 'calc',       label: '3. 거스름돈 계산하기',         active: true  },
   { id: 'memory',     label: '4. 그림 기억하기 (준비중)',     active: false },
 ];
 
