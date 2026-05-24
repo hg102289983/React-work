@@ -1,73 +1,52 @@
-import { useState } from 'react';
+import React, { Component } from 'react';
 import { problems } from '../data/problems';
-import PoemBoard from '../components/PoemBoard';
-import RealTimeScore from '../components/RealTimeScore';
-import './CircleWordGame.css';
+import PoemBoard from './PoemBoard';
+import ScoreBoard from './ScoreBoard';
 
-function CircleWordGame() {
-  const problem = problems[0];
-
-  // 시 본문을 줄/단어 단위로 분해
-  const tokens = problem.text.map((line, lineIdx) => {
-    if (line === '') return { lineIdx, words: [] };
-    const words = line.split(' ').map((word, wordIdx) => ({
-      key: lineIdx + '-' + wordIdx,
-      word: word,
-      isTarget: word.indexOf(problem.targetWord) !== -1,
-    }));
-    return { lineIdx, words };
-  });
-
-  // 전체 정답 단어 개수
-  let totalTargets = 0;
-  for (let i = 0; i < tokens.length; i++) {
-    for (let j = 0; j < tokens[i].words.length; j++) {
-      if (tokens[i].words[j].isTarget) totalTargets += 1;
-    }
+class CircleWordGame extends Component {
+  constructor(props) {
+    super(props);
+    this.problem = problems[0];
+    this.tokens  = this.problem.text.map((line, li) =>
+      line === '' ? { li, words: [] }
+                 : { li, words: line.split(' ').map((word, wi) => ({
+                     key: `${li}-${wi}`, word, isTarget: word.includes(this.problem.targetWord),
+                   })) }
+    );
+    this.totalTargets = this.tokens.flatMap((l) => l.words).filter((w) => w.isTarget).length;
+    this.state = { selectedKeys: [] };
   }
 
-  const [selectedKeys, setSelectedKeys] = useState([]);
-
-  // 현재까지 맞춘 정답 단어 개수 (실시간 계산)
-  let correctCount = 0;
-  for (let i = 0; i < tokens.length; i++) {
-    for (let j = 0; j < tokens[i].words.length; j++) {
-      const w = tokens[i].words[j];
-      if (w.isTarget && selectedKeys.indexOf(w.key) !== -1) correctCount += 1;
-    }
+  handleWordClick(key) {
+    const keys = this.state.selectedKeys;
+    this.setState({
+      selectedKeys: keys.includes(key) ? keys.filter((k) => k !== key) : [...keys, key],
+    });
   }
 
-  const handleWordClick = (key) => {
-    if (selectedKeys.indexOf(key) !== -1) {
-      setSelectedKeys(selectedKeys.filter((k) => k !== key));
-    } else {
-      setSelectedKeys(selectedKeys.concat([key]));
-    }
-  };
-
-  // 다음 문제로 이동 (현재는 초기화로 대체)
-  const handleNext = () => {
-    setSelectedKeys([]);
-  };
-
-  return (
-    <div className="circle-word-game">
-      <h2>인지훈련 - 「{problem.targetWord}」 단어에 모두 동그라미 치기</h2>
-
-      <PoemBoard
-        problem={problem}
-        tokens={tokens}
-        selectedKeys={selectedKeys}
-        onWordClick={handleWordClick}
-      />
-
-      <RealTimeScore
-        correctCount={correctCount}
-        totalTargets={totalTargets}
-        onNext={handleNext}
-      />
-    </div>
-  );
+  render() {
+    const { selectedKeys } = this.state;
+    const correctCount = this.tokens.flatMap((l) => l.words)
+      .filter((w) => w.isTarget && selectedKeys.includes(w.key)).length;
+    return (
+      <div style={{ maxWidth: '720px', margin: '40px auto', padding: '0 20px' }}>
+        <div style={{ background: '#c5e0b4', padding: '16px', textAlign: 'center', fontSize: '26px', fontWeight: 'bold', marginBottom: '24px' }}>
+          「{this.problem.targetWord}」 단어에 모두 동그라미 치세요
+        </div>
+        <PoemBoard
+          problem={this.problem}
+          tokens={this.tokens}
+          selectedKeys={selectedKeys}
+          onWordClick={(key) => this.handleWordClick(key)}
+        />
+        <ScoreBoard
+          correctCount={correctCount}
+          totalTargets={this.totalTargets}
+          onNext={this.props.onNext}
+        />
+      </div>
+    );
+  }
 }
 
 export default CircleWordGame;
