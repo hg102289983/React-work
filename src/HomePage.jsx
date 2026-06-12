@@ -3,7 +3,6 @@ const GAMES = [
   { id: 'circleWord', label: '2. 동그라미 단어 게임',        active: true  },
   { id: 'calc',       label: '3. 거스름돈 계산하기',         active: true  },
   { id: 'colorGuess', label: '4. 초성 색상 맞추기',          active: true  },
-  { id: 'memory',     label: '5. 그림 기억하기 (준비중)',     active: false },
 ];
 
 function HomePage({ userId, onSelectGame, onMyPage }) {
