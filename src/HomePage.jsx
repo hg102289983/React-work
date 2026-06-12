@@ -18,7 +18,6 @@ function HomePage({ userId, onSelectGame, onMyPage }) {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '50px 20px', textAlign: 'center' }}>
 
-      {/* 상단 유저 정보 + 마이페이지 버튼 */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '16px' }}>
         <span style={{ fontSize: '20px', color: '#555', marginRight: '12px' }}>
           👤 {userId}님

@@ -17,9 +17,7 @@ class App extends Component {
       screen: 'home',
     };
   }
-
-  // 게임 기록 localStorage에 저장
-  // gameId: 게임 식별자, score: 맞은 개수, total: 전체 문제 수
+  
   saveRecord(gameId, score, total) {
     const { userId } = this.state;
     const key = `records_${userId}`;

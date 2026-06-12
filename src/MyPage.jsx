@@ -8,7 +8,6 @@ const GAME_LABELS = {
 };
 
 class MyPage extends Component {
-  // localStorage에서 해당 유저의 기록 불러오기
   getRecords() {
     const { userId } = this.props;
     const raw = localStorage.getItem(`records_${userId}`);
@@ -22,10 +21,8 @@ class MyPage extends Component {
 
     return (
       <div style={styles.container}>
-        {/* 헤더 */}
         <div style={styles.header}>👤 마이페이지</div>
 
-        {/* 프로필 카드 */}
         <div style={styles.profileCard}>
           <span style={styles.avatar}>🧓</span>
           <div>
@@ -34,7 +31,6 @@ class MyPage extends Component {
           </div>
         </div>
 
-        {/* 게임 기록 */}
         <div style={styles.sectionTitle}>📊 게임 기록</div>
 
         {gameIds.map((gameId) => {
@@ -55,7 +51,6 @@ class MyPage extends Component {
           );
         })}
 
-        {/* 홈으로 */}
         <div style={{ textAlign: 'center', marginTop: '32px' }}>
           <button onClick={onBack} style={btnStyle('#3a7d44')}>🏠 홈으로 돌아가기</button>
         </div>

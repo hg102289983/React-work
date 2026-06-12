@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PriceBoard from './PriceBoard';
 import AnswerBox from './AnswerBox';
 
-// 문제 데이터
 const PROBLEM = { item: '사과 주스', price: 1200, paid: 5000 };
 
 class CalcGame extends Component {
